@@ -1,3 +1,8 @@
+package game;
+
+import game.world.Player;
+import game.world.World;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,13 +20,15 @@ public class GamePanel extends JPanel {
     public static final int SCALE = 4; 
     public static final int WIDTH=320, HEIGHT=180; 
 
+    private static final int START_X = 5;
+    private static final int START_Y = 5;
+
     private final Input input; 
     private final World world; 
     private final Player player; 
 
     private final Timer timer; 
 
-    private final int[] START_POS = new int[]{5,5};
 
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -32,8 +39,9 @@ public class GamePanel extends JPanel {
         addKeyListener(input); // handle keyboard input with our custom Input
 
         world = new World();
-        player = new Player(START_POS);
-
+        player = new Player(START_X, START_Y);
+        
+        // makes the game update and repaint every Frame
         timer = new Timer(1000 / FPS, e -> {
             update(); 
             repaint();
@@ -45,7 +53,7 @@ public class GamePanel extends JPanel {
     }
 
     private void update() {
-
+        player.update(world, input);
     }
 
     @Override 
@@ -62,8 +70,8 @@ public class GamePanel extends JPanel {
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, 
                 RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-            //world.draw(g);
-            //player.draw(g);
+            world.draw(g);
+            player.draw(g);
         } finally {
             g.dispose();
         }
