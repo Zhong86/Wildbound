@@ -12,6 +12,8 @@ public abstract class Entity {
     
     public static final int TILE = 16; 
     public static final int DOWN=0, UP=1, LEFT=2, RIGHT=3;
+    protected static final int[] DX = { 0, 0, -1, 1 };
+    protected static final int[] DY = { 1, -1, 0, 0 };
 
     private final SpriteSheet sprites;
 
@@ -38,7 +40,8 @@ public abstract class Entity {
     public boolean tryStep(int dx, int dy, World world) {
         if(moving) return false; 
         setFacing(dx, dy);
-        if(!world.canWalk(tileX+dx, tileY+dy)) return false; 
+        int nextTile = world.canWalk(tileX+dx, tileY+dy);
+        if(nextTile == -1) return false; 
         dirX=dx; dirY=dy;
         moving=true;moveTicks=0;
         return true;
@@ -70,8 +73,8 @@ public abstract class Entity {
     public int getTileY() { return tileY; }
     public boolean isMoving() { return moving; }
 
-    protected int pixelX() { return tileX * TILE + pixelOffsetX; }
-    protected int pixelY() { return tileY * TILE + pixelOffsetY; }
+    public int pixelX() { return tileX * TILE + pixelOffsetX; }
+    public int pixelY() { return tileY * TILE + pixelOffsetY; }
 
     //  rendering movement
     protected BufferedImage currentFrame() {

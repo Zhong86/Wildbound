@@ -1,5 +1,6 @@
 package game;
 
+import game.world.Camera;
 import game.world.Player;
 import game.world.World;
 
@@ -29,6 +30,8 @@ public class GamePanel extends JPanel {
 
     private final Timer timer; 
 
+    private final Camera camera = new Camera();
+
 
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
@@ -54,6 +57,7 @@ public class GamePanel extends JPanel {
 
     private void update() {
         player.update(world, input);
+        camera.follow(player.pixelX(), player.pixelY(), world);
     }
 
     @Override 
@@ -70,6 +74,8 @@ public class GamePanel extends JPanel {
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, 
                 RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
+            // Swing handles "Camera" by moving the entire world / map
+            g.translate(-camera.getX(), -camera.getY());
             world.draw(g);
             player.draw(g);
         } finally {

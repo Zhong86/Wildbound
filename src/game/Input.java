@@ -11,9 +11,10 @@ public class Input extends KeyAdapter {
     //      2. have consistent smooth movement
     //      3. game loop controls input, not OS key rules
     private final Set<Integer> held = ConcurrentHashMap.newKeySet();
+    private final Set<Integer> pressed = ConcurrentHashMap.newKeySet();
 
     @Override public void keyPressed(KeyEvent e) {
-        held.add(e.getKeyCode());
+        if(held.add(e.getKeyCode())) pressed.add(e.getKeyCode());
     }
 
     @Override public void keyReleased(KeyEvent e) {
@@ -22,5 +23,9 @@ public class Input extends KeyAdapter {
 
     public boolean isDown(int keyCode) {
         return held.contains(keyCode);
+    }
+
+    public boolean wasPressed(int keyCode) {
+        return pressed.remove(keyCode);
     }
 }
