@@ -1,6 +1,7 @@
-package game.world;
+package game;
 
-import game.GamePanel;
+import game.world.Entity;
+import game.world.World;
 
 public class Camera {
 

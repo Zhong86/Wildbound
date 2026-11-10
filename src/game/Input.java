@@ -28,4 +28,8 @@ public class Input extends KeyAdapter {
     public boolean wasPressed(int keyCode) {
         return pressed.remove(keyCode);
     }
+
+    public void endFrame() {
+        pressed.clear();
+    }
 }

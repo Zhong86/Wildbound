@@ -40,8 +40,8 @@ public abstract class Entity {
     public boolean tryStep(int dx, int dy, World world) {
         if(moving) return false; 
         setFacing(dx, dy);
-        int nextTile = world.canWalk(tileX+dx, tileY+dy);
-        if(nextTile == -1) return false; 
+        int nextTile = world.tileAt(tileX+dx, tileY+dy);
+        if(nextTile != 0 && nextTile != 1) return false; 
         dirX=dx; dirY=dy;
         moving=true;moveTicks=0;
         return true;

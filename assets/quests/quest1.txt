@@ -1,0 +1,13 @@
+title: Clear the Meadow
+reward: potion:2
+
+[start]
+Pollution monsters have taken over the meadow.\nCan you drive out three of them?
+
+[finish]
+Thank you, here's something for your trouble.
+
+[tasks]
+defeat_smog_monster 1
+defeat_toxic_monster 1
+defeat_trash_monster 1

@@ -1,6 +1,7 @@
 package game;
 
-import game.world.Camera;
+import game.ui.Dialog;
+import game.world.OverworldScene;
 import game.world.Player;
 import game.world.World;
 
@@ -21,16 +22,10 @@ public class GamePanel extends JPanel {
     public static final int SCALE = 4; 
     public static final int WIDTH=320, HEIGHT=180; 
 
-    private static final int START_X = 5;
-    private static final int START_Y = 5;
-
     private final Input input; 
-    private final World world; 
-    private final Player player; 
-
     private final Timer timer; 
 
-    private final Camera camera = new Camera();
+    private Scene scene;
 
 
     public GamePanel() {
@@ -40,9 +35,7 @@ public class GamePanel extends JPanel {
 
         input = new Input();
         addKeyListener(input); // handle keyboard input with our custom Input
-
-        world = new World();
-        player = new Player(START_X, START_Y);
+        scene = new OverworldScene(this); 
         
         // makes the game update and repaint every Frame
         timer = new Timer(1000 / FPS, e -> {
@@ -55,9 +48,13 @@ public class GamePanel extends JPanel {
         timer.start();
     }
 
+    public void switchTo(Scene next) {
+        scene = next;
+    }
+
     private void update() {
-        player.update(world, input);
-        camera.follow(player.pixelX(), player.pixelY(), world);
+        scene.update(input);
+        input.endFrame();
     }
 
     @Override 
@@ -74,10 +71,7 @@ public class GamePanel extends JPanel {
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, 
                 RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-            // Swing handles "Camera" by moving the entire world / map
-            g.translate(-camera.getX(), -camera.getY());
-            world.draw(g);
-            player.draw(g);
+            scene.draw(g);
         } finally {
             g.dispose();
         }

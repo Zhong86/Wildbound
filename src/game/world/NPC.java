@@ -13,12 +13,14 @@ public class NPC extends Entity {
         List<String> dialog, Quest newQuest
     ) {
         super(tileX, tileY, framesPath);
-        dialogs = dialog;
-        quest = newQuest;
+        this.dialogs = dialog;
+        this.quest = newQuest;
     }
 
     public String getDialog() {
-        return dialogs.get(new Random().nextInt(dialogs.size()));
+        if(quest.status.equals("not-taken")) return quest.startDialog;
+        else if(quest.status.equals("just-finished")) return quest.finishDialog;
+        else return dialogs.get(new Random().nextInt(dialogs.size()));
     }
 
     public String getQuest() {

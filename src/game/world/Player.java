@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Entity {
 
-    private static final String FRAMES_PATH = "/sprites/player.png";
+    private static final String FRAMES_PATH = "/assets/sprites/player.png";
     
     private NPC talkingTo = null;
     private boolean triggerBattle = false;
@@ -24,7 +24,7 @@ public class Player extends Entity {
         advanceStep();
 
         if(wasMoving && !moving) {
-            int curr = world.canWalk(tileX, tileY);
+            int curr = world.tileAt(tileX, tileY);
             if(curr == 1) { // randomize battle chance
                 if(Math.random() < 0.2) triggerBattle = true;
             }  
@@ -42,9 +42,16 @@ public class Player extends Entity {
 
             // check NPC
             if(input.wasPressed(KeyEvent.VK_E)) {
-                NPC npc = world.npcAt(tileX+DX[facing], tileY+DY[facing]);
+                int faceX = tileX+DX[facing], faceY = tileY+DY[facing];
+
                 // NPC logic nnti
+                NPC npc = world.npcAt(faceX, faceY);
                 if(npc != null) talkingTo = npc;
+
+                // gate logic
+                if(world.tileAt(faceX, faceY) == 2) {
+                    
+                }
             }
         }
     }
