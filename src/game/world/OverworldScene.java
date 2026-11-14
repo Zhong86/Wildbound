@@ -12,7 +12,7 @@ public class OverworldScene implements Scene {
     private final GamePanel game;
 
     private final World world = new World();
-    private final Player player = new Player(5, 5);
+    private final Player player = new Player(world.getStartX(), world.getStartY());
     private final Camera camera = new Camera();
 
     public OverworldScene(GamePanel game) {

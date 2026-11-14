@@ -1,9 +1,6 @@
 package game;
 
-import game.ui.Dialog;
 import game.world.OverworldScene;
-import game.world.Player;
-import game.world.World;
 
 import java.awt.Color;
 import java.awt.Dimension;
